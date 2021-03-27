@@ -2,53 +2,56 @@ from pyspark.sql import SparkSession
 from pyspark.sql import Row
 from pyspark.sql import functions
 
-#convert movieID to movie name
+# Create a dictionary for movie names
 def loadMovieNames():
-    movieNames = {}                                                                                                                                                     
+    movieNames = {}
     with open("ml-100k/u.item") as f:
         for line in f:
             fields = line.split('|')
             movieNames[int(fields[0])] = fields[1]
     return movieNames
 
-#take each line and return(movieID,(rating,1.0))
-def parseInput():
-    fields=line.split()
-    return Row(movieID=int(fields[1]),rating=float(fields[2]))
+# parse through each line of u.data and convert it to (movieID, rating)
+def parseInput(line):
+    fields = line.split()
+    return Row(movieID = int(fields[1]), rating = float(fields[2]))
 
-#main script
-def __name__=="__main__":
-    #create SparkSession
-    spark=SparkSession.builder.appName("PopularMovies").getOrCreate() #getorcreate recover from failure
 
-    #load movieID movie name lookup table
-    movieNames=loadMovieNames()
 
-    #load raw data
-    line=sc.textFile("hdfs:///user/maria_dev/ml-100k/u.data")
+if __name__ == "__main__":
+    # Create a SparkSession (the config bit is only for Windows!)
+    spark = SparkSession.builder.appName("PopularMovies").getOrCreate()
 
-    #convert to a RDD of Row objects with(movieID,rating)
-    movies=line.map(parseInput)
+    # Load up our movie ID -> name dictionary
+    movieNames = loadMovieNames()
 
-    #convert to DataFrame
-    movieDataset=spark.createDataFrame(movies)
+    # Get the raw data
+    lines = spark.sparkContext.textFile("hdfs:///user/maria_dev/ml-100k/u.data")
+    
+    # Convert it to a RDD of Row objects with (movieID, rating)
+    movies = lines.map(parseInput)
 
-    #calculate average rating
-    averageRatings=movieDataset.groupBy("movieID").ave("rating")
+    # Convert that to a DataFrame
+    movieDataset = spark.createDataFrame(movies)
 
-    #join average and count
-    averagesAndCounts=counts.join(averageRatings,"movieID")
+    # Compute average rating for each movieID
+    averageRatings = movieDataset.groupBy("movieID").avg("rating")
 
-    #take top 10 result
+    # Compute count of ratings for each movieID
+    counts = movieDataset.groupBy("movieID").count()
+
+    # Join the two together (movieID, avg(rating), and count columns)
+    averagesAndCounts = counts.join(averageRatings, "movieID")
+
+    # Filter movies rated 10 or fewer times
+    popularAveragesAndCounts = averagesAndCounts.filter("count > 10")
+
+    # Pull the top 10 results
     topTen = popularAveragesAndCounts.orderBy("avg(rating)").take(10)
 
-    #print
+    # Print them out, converting movie ID's to names as we go.
     for movie in topTen:
         print (movieNames[movie[0]], movie[1], movie[2])
 
-        
-    spark.stop()   
-
-
-
-    
+    # Stop the session
+    spark.stop()
