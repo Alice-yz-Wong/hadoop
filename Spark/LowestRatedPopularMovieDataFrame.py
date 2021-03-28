@@ -49,7 +49,7 @@ if __name__ == "__main__":
     # Pull the top 10 results
     topTen = popularAveragesAndCounts.orderBy("avg(rating)").take(10)
 
-    # Print them out, converting movie ID's to names as we go.
+    # Print them out, converting movie ID's to names 
     for movie in topTen:
         print (movieNames[movie[0]], movie[1], movie[2])
 

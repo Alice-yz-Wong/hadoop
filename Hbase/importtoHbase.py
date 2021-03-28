@@ -14,9 +14,9 @@ if(ratings.exists()):
 ratings.create('rating')
 
 print("parsing the ml-100k ratings data...\n")
-ratingFile=open("hdfs://sandbox.hortonworks.com:8020/root/tmp/maria_dev/ml-100k/u.data","r")
+ratingFile=open("hdfs:///192.168.1.59:8020/root/tmp/maria_dev/ml-100k/u.data","r")
 
-#batch process instead of one row
+#batch process parsing instead of one row
 batch=ratings.batch()
 for line in ratingFile:
     (userID,movieID,rating,time)=line.split()
