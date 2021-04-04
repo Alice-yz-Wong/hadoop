@@ -1,3 +1,6 @@
+# Spark_task1_ratings_counter: the objective of this task is to find out how 
+# many of each rating occur
+
 from pyspark import SparkConf, SparkContext
 import collections #sort file function
 

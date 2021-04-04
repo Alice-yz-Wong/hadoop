@@ -1,3 +1,8 @@
+# Spark_task4_word_count_improved: use flatmap() to do word count of a book
+
+# Requirements:
+# - remove the punctuations,capitalization
+# - display in sorted order
 import re
 from pyspark import SparkConf, SparkContext
 

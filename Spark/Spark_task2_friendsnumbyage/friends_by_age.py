@@ -1,3 +1,7 @@
+#Spark_task2_friends_by_age: the objective of this task is to figure out what age 
+# have the most amount of friend, in other words, calculate average friends number 
+# by age
+
 from pyspark import SparkConf, SparkContext
 
 conf = SparkConf().setMaster("local").setAppName("FriendsByAge")

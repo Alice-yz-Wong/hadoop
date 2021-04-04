@@ -1,5 +1,8 @@
-from pyspark import SparkConf, SparkContext
+# Spark_task5_total_spent_by_customer: reduce by customer ID and 
+# calculate how much each customer spent in total
 
+
+from pyspark import SparkConf, SparkContext
 
 conf = SparkConf().setMaster("local").setAppName("Customerspent")
 sc = SparkContext(conf = conf)

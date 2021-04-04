@@ -1,3 +1,5 @@
+#Spark_task3_max_temperatures:maximum temperature observed at different weather 
+# station in the year 1800
 from pyspark import SparkConf, SparkContext
 
 conf = SparkConf().setMaster("local").setAppName("MaxTemperatures")

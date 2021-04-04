@@ -1,3 +1,6 @@
+#Spark_task3_min_temperatures: minimum temperature observed at different
+# weather station in the year 1800
+
 from pyspark import SparkConf, SparkContext
 
 conf = SparkConf().setMaster("local").setAppName("MinTemperatures")

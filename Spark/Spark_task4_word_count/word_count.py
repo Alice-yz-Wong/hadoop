@@ -1,3 +1,4 @@
+#Spark_task4_word_count: use flatmap() to do word count of a book
 from pyspark import SparkConf, SparkContext
 
 conf = SparkConf().setMaster("local").setAppName("WordCount")
