@@ -12,7 +12,7 @@ def loadMovieNames():
             movieNames[int(fields[0]) = fields[1].decode('ascii','ignore')]
     return movieNames
 
-#covert u.data line into (userID, movieID,rating) rows
+#convert u.data line into (userID, movieID,rating) rows
 def parseInput(line):
     fields=line.value.split()
     return Row(userID=int(fields[0]),movieID=int(fields[1]),rating=float(fields[2]))
