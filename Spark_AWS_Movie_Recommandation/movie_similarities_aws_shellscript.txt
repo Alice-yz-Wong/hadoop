@@ -1,0 +1,7 @@
+shell script:
+
+aws s3 cp s3://alicesparkprojects/movie_similarities_aws.py
+
+aws s3 cp s3://alicesparkprojects/movies.dat
+
+spark-submit --executor-memory 1g movie_similarities_aws.py
